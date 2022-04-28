@@ -97,7 +97,9 @@ def gt_loader(path):
         if path.endswith("pfm"):
             gt = np.expand_dims(readPFM(path),0)
         if path.endswith("png"):
-            gt = np.expand_dims(cv2.imread(path, -1), 0)/256.
+            gt = cv2.imread(path,-1)
+            gt = cv2.resize(gt,(960,540),interpolation=cv2.INTER_NEAREST)
+            gt = np.expand_dims(gt, 0)/256.
         if path.endswith("npy"):
             gt = np.expand_dims(np.load(path, mmap_mode='c'), 0)
     except:
@@ -116,7 +118,7 @@ def img_loader(path, mode="passive", height=2160, width=3840):
             img = np.fromfile(open(path, 'rb'), dtype=np.uint8).reshape(height, width, 3 ) if mode=="passive" else \
                   np.fromfile(open(path, 'rb'), dtype=np.uint8).reshape(height, width, 1)
         else:
-            img = cv2.imread(path, -1)
+            img = cv2.imread(path, 1)
     except:
         print('Cannot open input image: '+ path)
     return img

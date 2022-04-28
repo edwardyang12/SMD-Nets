@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # args
 mode=passive
@@ -6,17 +6,18 @@ name="test"
 
 # setup
 setup=stereo
-dataset=UnrealStereo4K
+dataset=MessyTable
+#UnrealStereo4K
 
 # network
 backbone="PSMNet"
 
 # path
-results_path=./output/$dataset/$setup/$mode/$name
-checkpoints_path=./checkpoints/UnrealStereo4K/stereo/passive/$backbone/ckpt
+results_path=./results/
+checkpoints_path=/edward-slow-vol/checkpoints/smd/train/net_latest
 
 # filenames
-testing_file=./filenames/test.txt
+testing_file=./filenames/test_messy.txt
 
 # testing settings
 superes_factor=4
@@ -35,6 +36,10 @@ if [ $dataset == "UnrealStereo4K" ];then
 
 elif [ $dataset == "KITTI" ];then
     dataroot=/media/Storage/Datasets/KITTI/2015
+    aspect_ratio=1.
+
+elif [ $dataset == "MessyTable" ];then
+    dataroot='/cephfs/datasets/iccv_pnp/messy-table-dataset/real_v9/training/'
     aspect_ratio=1.
 fi
 

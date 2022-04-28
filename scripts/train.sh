@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 #args
 mode="passive"
@@ -6,21 +6,23 @@ name="train"
 
 # setup
 setup=stereo
-dataset=UnrealStereo4K
+dataset=MessyTable
+#UnrealStereo4K 
+#MessyTable
 
 # path
-results_path=./output/$dataset/$setup/$mode/
-checkpoints_path=./checkpoints/$dataset/$setup/$mode/$name
+results_path=/edward-slow-vol/checkpoints/smd
+checkpoints_path=/edward-slow-vol/checkpoints/smd
 
 # network
 backbone="PSMNet"
 
 # filenames
-training_file=./filenames/train.txt
-testing_file=./filenames/val.txt
+training_file=./filenames/train_messy.txt
+testing_file=./filenames/val_messy.txt
 
 # training settings
-batch_size=4
+batch_size=2
 num_epoch=200
 learning_rate=1e-4
 gamma=0.1
@@ -39,7 +41,7 @@ extras="--pin_memory"
 # datasets
 if [ $dataset == "UnrealStereo4K" ];then
 
-    dataroot=/media/Storage/Datasets/UnrealStereo4K
+    dataroot='/edward-slow-vol/UnrealStereo4K_00008/'
     aspect_ratio=0.25
     crop_width=2048
     crop_height=1536
@@ -50,6 +52,14 @@ elif [ $dataset == "KITTI" ];then
     aspect_ratio=1.
     crop_width=896
     crop_height=256
+
+elif [ $dataset == "MessyTable" ];then
+
+    dataroot='/cephfs/datasets/iccv_pnp/messy-table-dataset/v12/training/'
+    aspect_ratio=1.
+    crop_width=512
+    crop_height=256
+
 fi
 
 python apps/train.py --dataroot $dataroot \
